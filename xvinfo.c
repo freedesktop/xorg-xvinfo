@@ -200,8 +200,6 @@ main(int argc, char *argv[])
                 }
 
                 if (ImageEncodings && (ainfo[j].type & XvImageMask)) {
-                    char imageName[5];
-
                     for (n = 0; n < nencode; n++) {
                         if (!strcmp(encodings[n].name, "XV_IMAGE")) {
                             fprintf(stdout,
@@ -218,7 +216,10 @@ main(int argc, char *argv[])
                             numImages);
 
                     for (n = 0; n < numImages; n++) {
-                        sprintf(imageName, "%c%c%c%c", formats[n].id & 0xff,
+                        char imageName[5];
+
+                        snprintf(imageName, sizeof(imageName), "%c%c%c%c",
+                                 formats[n].id & 0xff,
                                 (formats[n].id >> 8) & 0xff,
                                 (formats[n].id >> 16) & 0xff,
                                 (formats[n].id >> 24) & 0xff);
