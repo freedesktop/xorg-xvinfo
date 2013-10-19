@@ -174,7 +174,7 @@ main(int argc, char *argv[])
             XvQueryEncodings(dpy, ainfo[j].base_id, &nencode, &encodings);
 
             if (encodings && nencode) {
-                int ImageEncodings = 0;
+                unsigned int ImageEncodings = 0;
 
                 for (n = 0; n < nencode; n++) {
                     if (!strcmp(encodings[n].name, "XV_IMAGE"))
