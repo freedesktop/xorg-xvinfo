@@ -12,10 +12,11 @@
 
 static char *progname;
 
-static void _X_NORETURN
+static void _X_NORETURN _X_COLD
 PrintUsage(void)
 {
-    fprintf(stderr, "Usage: %s [-display host:dpy] [-short] [-version]\n", progname);
+    fprintf(stderr, "Usage: %s [-display host:dpy] [-short] [-version]\n",
+            progname);
     exit(0);
 }
 
@@ -43,8 +44,12 @@ main(int argc, char *argv[])
     if (argc != 1) {
         for (i = 1; i < argc; i++) {
             if (!strcmp(argv[i], "-display")) {
-                disname = argv[i + 1];
-                i++;
+                if (++i >= argc) {
+                    fprintf (stderr, "%s: missing argument to -display\n",
+                             progname);
+                    PrintUsage();
+                }
+                disname = argv[i];
             }
             else if (!strcmp(argv[i], "-short"))
                 shortmode = 1;
@@ -53,6 +58,8 @@ main(int argc, char *argv[])
                 exit(0);
             }
             else {
+                fprintf (stderr, "%s: unrecognized argument '%s'\n",
+                         progname, argv[i]);
                 PrintUsage();
             }
         }
